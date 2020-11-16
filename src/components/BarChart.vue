@@ -1,8 +1,6 @@
 <template>
 <div>
-  <v-card>
-    <div id="vis"></div>
-  </v-card>
+  <div id="vis"></div>
   <v-btn @click="drawChart">Draw</v-btn>
 </div>
 </template>
@@ -11,7 +9,7 @@
 import embed from 'vega-embed'
 
 export default {
-  name: 'Page2.vue',
+  name: 'BarChart',
   data () {
     return {
       spec: {
@@ -42,7 +40,6 @@ export default {
       console.log(result.view)
     }
   }
-
 }
 </script>
 

@@ -44,7 +44,7 @@ export default {
     items: [
       { title: 'Page1', icon: 'mdi-view-dashboard', link: '/page1' },
       { title: 'Page2', icon: 'mdi-view-dashboard', link: '/page2' },
-      { title: 'Page3', icon: 'mdi-view-dashboard', link: '/page3' },
+      { title: 'Setup', icon: 'mdi-view-dashboard', link: '/setup' },
       { title: 'About', icon: 'mdi-help-box', link: '/about' }
     ]
   })

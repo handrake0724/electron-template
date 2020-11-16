@@ -103,23 +103,36 @@ if (isDevelopment) {
   }
 }
 
-ipcMain.on('loadPreferences', (event, args) => {
+ipcMain.on('loadJSON', (event, args) => {
   dialog.showOpenDialog({
     properties: ['openFile'],
     filters: [
-      { name: 'Preferences (.json, .prj)', extensions: ['json', 'prj'] }
+      { name: 'JSON (.json)', extensions: ['json'] }
     ]
   }).then(
-    function (dir) {
-      event.returnValue = dir
+    function (path) {
+      event.returnValue = path
+    }
+  )
+})
+
+ipcMain.on('loadYAML', (event, args) => {
+  dialog.showOpenDialog({
+    properties: ['openFile'],
+    filters: [
+      { name: 'YAML (.yaml, yml)', extensions: ['yaml', 'yml'] }
+    ]
+  }).then(
+    function (path) {
+      event.returnValue = path
     }
   )
 })
 
 ipcMain.on('openDirectory', (event, args) => {
   dialog.showOpenDialog({ properties: ['openDirectory'] }).then(
-    function (dir) {
-      event.returnValue = dir
+    function (path) {
+      event.returnValue = path
     }
   )
 })
@@ -134,8 +147,24 @@ ipcMain.on('openFile', (event, args) => {
       { name: 'Text (.text, .txt)', extensions: ['text', 'txt'] }
     ]
   }).then(
-    function (dir) {
-      event.returnValue = dir
+    function (path) {
+      event.returnValue = path
+    }
+  )
+})
+
+ipcMain.on('saveFile', (event, args) => {
+  dialog.showSaveDialog({
+    properties: ['createDirectory', 'showOverwriteConfirmation'],
+    filters: [
+      { name: 'All Files', extensions: ['*'] },
+      { name: 'Images (.png, .jpg)', extensions: ['png', 'jpg', 'jpeg'] },
+      { name: 'Movies (.mkv, .avi, .mp4)', extensions: ['mkv', 'avi', 'mp4'] },
+      { name: 'Text (.text, .txt)', extensions: ['text', 'txt'] }
+    ]
+  }).then(
+    function (path) {
+      event.returnValue = path
     }
   )
 })

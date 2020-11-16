@@ -31,13 +31,13 @@ const routes = [
     }
   },
   {
-    path: '/page3',
-    name: 'Page3',
+    path: '/setup',
+    name: 'Setup',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: function () {
-      return import(/* webpackChunkName: "about" */ '../views/Page3.vue')
+      return import(/* webpackChunkName: "about" */ '../views/Setup.vue')
     }
   },
   {
@@ -53,6 +53,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
+  mode: process.env.IS_ELECTRON ? 'hash' : 'history',
   routes
 })
 
