@@ -5,11 +5,20 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    preferences: null
   },
   mutations: {
+    updatePreferences (state, newPreferences) {
+      state.preferences = newPreferences
+    }
   },
   actions: {
   },
   modules: {
+  },
+  getters: {
+    getPreferences (state) {
+      return state.preferences
+    }
   }
 })

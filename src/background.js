@@ -5,6 +5,7 @@ import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import path from 'path'
 const zmq = require('zeromq')
+const fs = require('fs')
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Scheme must be registered before the app is ready
@@ -12,7 +13,7 @@ protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
 
-async function runClient() {
+async function runClient () {
   const sock = new zmq.Request()
   sock.connect('tcp://localhost:1234')
   const params = {
@@ -167,4 +168,16 @@ ipcMain.on('saveFile', (event, args) => {
       event.returnValue = path
     }
   )
+})
+
+ipcMain.on('loadPreferences', (event, args) => {
+  const preferencesFile = 'preferences.json'
+
+  console.log('apppath: ', app.getAppPath())
+  console.log('execpath', process.execPath)
+  console.log('portable_executable_dir', process.env.PORTABLE_EXECUTABLE_DIR)
+  console.log('__dirname: ', __dirname)
+  const contents = fs.readFileSync(path.join(app.getAppPath(), preferencesFile))
+  const preferences = JSON.parse(contents)
+  event.returnValue = preferences
 })

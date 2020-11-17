@@ -115,6 +115,7 @@
       </v-icon>
     </template>
   </v-data-table>
+  <v-spacer></v-spacer><v-btn @click="savePreferences" color="primary" class="ma-1 pa-1">Save</v-btn>
 </div>
 </template>
 
@@ -144,12 +145,6 @@ export default {
         { text: 'Data Type', value: 'dtype', filterable: false },
         { text: 'Factor', value: 'factor', filterable: false },
         { text: 'Actions', value: 'actions', sortable: false, filterable: false }
-      ],
-      formats: [
-        { name: 'NI-4497', dtype: 'int32', factor: '5.4551e-9' },
-        { name: 'NI-6231', dtype: 'int32', factor: '6.10715e-7' },
-        { name: 'SHIOld', dtype: 'int16', factor: '1./(2**15)*10' },
-        { name: 'SNU', dtype: 'double', factor: '1' }
       ]
     }
   },
@@ -190,11 +185,21 @@ export default {
         this.formats.push(this.editedItem)
       }
       this.close()
+    },
+    savePreferences () {
     }
   },
   computed: {
     formTitle () {
       return this.editedIndex === -1 ? 'New Format' : 'Edit Format'
+    },
+    formats: {
+      get () {
+        return this.$store.state.preferences.formats
+      },
+      set (value) {
+        this.$store.commit('updatePreferences', value)
+      }
     }
   }
 }

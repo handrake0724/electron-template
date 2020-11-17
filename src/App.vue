@@ -47,6 +47,12 @@ export default {
       { title: 'Setup', icon: 'mdi-view-dashboard', link: '/setup' },
       { title: 'About', icon: 'mdi-help-box', link: '/about' }
     ]
-  })
+  }),
+
+  mounted: function () {
+    const preferences = window.myAPI.loadPreferences()
+    this.$store.state.preferences = preferences
+    console.log('App: ', this.$store.state.preferences)
+  }
 }
 </script>

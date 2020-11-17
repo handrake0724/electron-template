@@ -1,0 +1,24 @@
+{
+  "formats": [
+    {
+      "name": "NI-4497",
+      "dtype": "int32",
+      "factor": "5.4551e-9"
+    },
+    {
+      "name": "NI-6231",
+      "dtype": "int32",
+      "factor": "6.10715e-7"
+    },
+    {
+      "name": "SHIOld",
+      "dtype": "int16",
+      "factor": "1./(2**15)*10"
+    },
+    {
+      "name": "SNU",
+      "dtype": "double",
+      "factor": "1"
+    }
+  ]
+}

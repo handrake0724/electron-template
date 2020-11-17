@@ -23,6 +23,10 @@ contextBridge.exposeInMainWorld(
       }
       const contents = fs.readFileSync(result.filePaths[0])
       return { state: result, yaml: YAML.safeLoad(contents) }
+    },
+    loadPreferences: () => {
+      const preferences = ipcRenderer.sendSync('loadPreferences')
+      return preferences
     }
   }
 )

@@ -1,6 +1,14 @@
 {
   "name": "electron-template",
   "version": "0.1.0",
+  "license": "BSD-3-Clause",
+  "author": {
+    "name": "SeongMo Yeon",
+    "email":"seongmo.yeon@gmail.com"
+  },
+  "files": [
+    "preferences.json"
+  ],
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
