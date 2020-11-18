@@ -15,7 +15,52 @@
     >
     </v-text-field>
   </v-card>
-
+  <v-card>
+    <v-card-text>Default Values</v-card-text>
+    <v-container>
+      <v-row>
+        <v-text-field
+          v-model="defaultChannels"
+          hint="This field displays channel data location"
+          label="Channels in DAQ"
+          type="text"
+          class="ma-2 pa-2"
+        >
+        </v-text-field>
+        <v-text-field
+          v-model="defaultDropout"
+          hint="This field displays channel data location"
+          label="Dropout size"
+          type="text"
+          class="ma-2 pa-2"
+        >
+        </v-text-field>
+        <v-text-field
+          v-model="defaultStdev"
+          hint="This field displays channel data location"
+          label="Stdev threshold"
+          type="text"
+          class="ma-2 pa-2"
+        >
+        </v-text-field>
+        <v-text-field
+          v-model="defaultWindow"
+          hint="This field displays channel data location"
+          label="Window size"
+          type="text"
+          class="ma-2 pa-2"
+        >
+        </v-text-field>
+        <v-select
+          v-model="defaultFormat"
+          :items="getFormats"
+          label="Format"
+          class="ma-2 pa-2"
+        >
+        </v-select>
+      </v-row>
+    </v-container>
+  </v-card>
   <v-card>
     <v-card-title>
       <v-chip class="ma-2 pa-2" color="pink" label text-color="white"> HOME </v-chip>
@@ -257,6 +302,7 @@ export default {
       ],
       headers: [
         { text: 'File', align: 'start', sortable: false, value: 'file' },
+        { text: 'Format', value: 'format', filterable: false },
         { text: 'Channels', value: 'channels', filterable: false },
         { text: 'Sampling frequency', value: 'frequency', filterable: false },
         { text: 'Actions', value: 'actions', sortable: false, filterable: false }
@@ -273,7 +319,12 @@ export default {
         frequency: 0
       },
       analyzedItem: {},
-      search: ''
+      search: '',
+      defaultChannels: '',
+      defaultDropout: '',
+      defaultStdev: '',
+      defaultWindow: '',
+      defaultFormat: ''
     }
   },
   methods: {
@@ -296,6 +347,20 @@ export default {
         console.log(this.defaultParameters)
         const channelInfo = this.projectContents['channel info']
         console.log('channel', channelInfo)
+        this.defaultChannels = this.defaultParameters.channels
+        this.defaultDropout = this.defaultParameters.dropout
+        this.defaultStdev = this.defaultParameters.stdev
+        this.defaultWindow = this.defaultParameters.window
+        this.defaultFormat = this.defaultParameters.format
+        for (const item of channelInfo['data list']) {
+          for (const key in this.defaultParameters) {
+            if (key in item && item[key] !== this.defaultParameters[key]) {
+              console.log(key + ' exist')
+            } else {
+              item[key] = 'default'
+            }
+          }
+        }
         this.dataList = channelInfo['data list']
         console.log('record', this.dataList)
       }
@@ -367,6 +432,13 @@ export default {
   computed: {
     formTitle () {
       return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+    },
+    getFormats () {
+      const formats = []
+      for (const key of this.$store.state.preferences.formats) {
+        formats.push(key.name)
+      }
+      return formats
     }
   },
 

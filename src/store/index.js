@@ -5,7 +5,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    preferences: null
+    preferences: {},
+    projectPath: null,
+    projectContents: {}
   },
   mutations: {
     updatePreferences (state, newPreferences) {
