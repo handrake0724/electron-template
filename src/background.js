@@ -130,6 +130,19 @@ ipcMain.on('loadYAML', (event, args) => {
   )
 })
 
+ipcMain.on('saveYAML', (event, args) => {
+  dialog.showSaveDialog({
+    properties: ['createDirectory', 'showOverwriteConfirmation'],
+    filters: [
+      { name: 'YAML (.yaml, yml)', extensions: ['yaml', 'yml'] }
+    ]
+  }).then(
+    function (path) {
+      event.returnValue = path
+    }
+  )
+})
+
 ipcMain.on('openDirectory', (event, args) => {
   dialog.showOpenDialog({ properties: ['openDirectory'] }).then(
     function (path) {
@@ -177,7 +190,15 @@ ipcMain.on('loadPreferences', (event, args) => {
   console.log('execpath', process.execPath)
   console.log('portable_executable_dir', process.env.PORTABLE_EXECUTABLE_DIR)
   console.log('__dirname: ', __dirname)
-  const contents = fs.readFileSync(path.join(app.getAppPath(), preferencesFile))
-  const preferences = JSON.parse(contents)
-  event.returnValue = preferences
+  if (fs.existsSync(path.join(app.getAppPath(), preferencesFile))) {
+    const contents = fs.readFileSync(path.join(app.getAppPath(), preferencesFile))
+    const preferences = JSON.parse(contents)
+    event.returnValue = preferences
+  } else {
+    event.returnValue = {}
+  }
+})
+
+ipcMain.on('appPath', (event, args) => {
+  event.returnValue = app.getAppPath()
 })

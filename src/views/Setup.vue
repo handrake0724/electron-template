@@ -187,6 +187,7 @@ export default {
       this.close()
     },
     savePreferences () {
+      window.myAPI.savePreferences(this.$store.state.preferences)
     }
   },
   computed: {

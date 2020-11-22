@@ -278,7 +278,7 @@
       </template>
     </v-data-table>
     <v-divider></v-divider>
-    <v-btn color="primary" class="ma-1 pa-1">Channel Divide</v-btn>
+    <v-btn color="primary" class="ma-1 pa-1" @click="channelDivide">Channel Divide</v-btn>
   </v-card>
 </div>
 </template>
@@ -332,7 +332,12 @@ export default {
       this.projectPath = null
       this.projectContents = null
       this.home = null
-      this.defaultParameters = null
+      this.defaultParameters = {}
+      this.defaultChannels = ''
+      this.defaultDropout = ''
+      this.defaultStdev = ''
+      this.defaultWindow = ''
+      this.defaultFormat = ''
       this.dataList = []
       this.selected = []
     },
@@ -373,7 +378,23 @@ export default {
       }
     },
     saveProject () {
+      console.log(this.projectContents)
+      // update project contents
+      this.projectContents['default info'].channels = parseInt(this.defaultChannels)
+      this.projectContents['default info'].dropout = parseInt(this.defaultDropout)
+      this.projectContents['default info'].stdev = parseFloat(this.defaultStdev)
+      this.projectContents['default info'].window = parseInt(this.defaultWindow)
+      this.projectContents['default info'].format = this.defaultFormat
 
+      if (this.projectPath === null) {
+        const state = window.myAPI.saveFile()
+        if (!state.canceled) {
+          this.projectPath = state.filePaths[0]
+        }
+      }
+      if (this.projectPath !== null) {
+        window.myAPI.saveYAML(this.projectContents, this.projectPath)
+      }
     },
     openHome () {
       const result = window.myAPI.openDirectory()
@@ -427,6 +448,9 @@ export default {
       this.close()
     },
     postProcess () {
+    },
+    channelDivide () {
+      console.log('send channel divide request')
     }
   },
   computed: {
